@@ -3,11 +3,10 @@ import Menu from "@material-ui/core/Menu";
 import MenuItem from "@material-ui/core/MenuItem";
 import {AppBar, MuiThemeProvider} from "material-ui";
 import {useHistory} from "react-router";
-import {authSlice, saveToken, selectToken} from "../../auth/authSlice";
-import {useDispatch, useSelector} from "react-redux";
+import {saveToken} from "../../auth/authSlice";
+import {useDispatch } from "react-redux";
 
-
-export default () => {
+export default function MenuHook() {
     let history = useHistory();
     const [anchorEl, setAnchorEl] = useState(null);
     const [page, setPage] = useState(0);
