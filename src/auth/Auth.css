@@ -1,0 +1,16 @@
+.Top-bar {
+  width: 90%;
+  display: inline-block;
+}
+.Aaa{
+  color: #ff0502;
+}
+.App-logo {
+  width: 80%;
+  position: center;
+}
+
+/*.MuiInputLabel-formControl{*/
+/*  right: 0;*/
+/*  top: 0;*/
+/*}*/

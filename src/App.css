@@ -1,0 +1,117 @@
+.App {
+  text-align: center;
+}
+
+.headerText{
+  padding: 30px;
+  color: white;
+  position: center;
+  margin: 10px 10px 20px;
+  background-color: #104623;
+  font-size: 30px;
+  font-weight: 500;
+}
+
+.subHeaderText{
+  padding: 10px;
+  color: white;
+  width: 80%;
+  margin-bottom: 10px;
+  margin-top: 30px;
+  display: inline-block;
+  background-color: #903b38;
+  font-size: 20px;
+}
+
+.tableInOut{
+  border: 1px solid #ddd;
+  color: #3b7d6a;
+}
+
+.text-overflow{
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  max-width: 150px;
+}
+
+.MuiTablePagination-actions{
+  /*direction: ltr;*/
+}
+
+.MuiIconButton-label{
+  transform: rotate(180deg);
+}
+
+.MuiTableContainer-root{
+  overflow-x: visible !important;
+}
+
+.AAA{
+  width: 80%;
+  display: inline-block;
+  margin-top: 10px;
+  box-shadow: 0 4px 8px 0 rgba(53, 53, 53, 0.9);
+  transition: 0.5s;
+  padding: 1px;
+  caret-color: transparent;
+}
+
+.euiPagination{
+  direction: ltr;
+}
+
+.AAA:hover{
+  box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
+}
+
+.table, th{
+  border: 1px solid black;
+  background-color: rgba(201, 201, 201, 0.5);
+}
+
+.App-logo {
+  height: 40vmin;
+  pointer-events: none;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .App-logo {
+    animation: App-logo-float infinite 3s ease-in-out;
+  }
+}
+
+.App-header {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: calc(10px + 2vmin);
+}
+
+/*.App-link {*/
+/*  color: rgb(112, 76, 182);*/
+/*}*/
+
+/*@keyframes App-logo-float {*/
+/*  0% {*/
+/*    transform: translateY(0);*/
+/*  }*/
+/*  50% {*/
+/*    transform: translateY(10px);*/
+/*  }*/
+/*  100% {*/
+/*    transform: translateY(0px);*/
+/*  }*/
+/*}*/
+
+
+
+.MuiInputLabel-formControl {
+  right: 0 !important;
+  left: unset !important;
+}
+
+.MuiInputLabel-shrink {
+  transform-origin: top right !important;
+}
