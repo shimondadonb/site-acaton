@@ -10,19 +10,28 @@ function getToken() {
 export const authSlice = createSlice({
     name: 'auth',
     initialState: {
-        token: getToken()
+        token: getToken(),
+        bankNumber: '09-6877184',
+        accountNumber: 'It'
     },
     reducers: {
         saveToken: (state, action) => {
-            console.log("action", action);
             state.token = action.payload;
+        },
+        saveBankNumber: (state, action) => {
+            state.bankNumber = action.payload;
+        },
+        saveAccountNumber: (state, action) => {
+            state.accountNumber = action.payload;
         },
     }
 });
 
-export const {saveToken} = authSlice.actions;
+export const {saveToken, saveAccountNumber, saveBankNumber} = authSlice.actions;
 
 export const selectToken = (state) => state.auth.token;
+export const selectBankNumber = (state) => state.auth.bankNumber;
+export const selectAccountNumber = (state) => state.auth.accountNumber;
 
 export default authSlice.reducer;
 

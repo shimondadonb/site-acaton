@@ -27,7 +27,7 @@ export default function MenuHook() {
                 history.push('/property');
                 break;
             case 2:
-                history.push('/loan');
+                history.push('/target');
                 break;
             case 3:
                 dispatch(saveToken());
@@ -49,7 +49,7 @@ export default function MenuHook() {
         >
             <MenuItem onClick={() => handleMenuClose(0)}>פרטים אישיים</MenuItem>
             <MenuItem onClick={() => handleMenuClose(1)}>נכסים</MenuItem>
-            <MenuItem onClick={() => handleMenuClose(2)}>הלוואות</MenuItem>
+            <MenuItem onClick={() => handleMenuClose(2)}>מטרות</MenuItem>
             <MenuItem onClick={() => handleMenuClose(3)}>התנתק</MenuItem>
         </Menu>
     );

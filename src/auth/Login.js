@@ -1,16 +1,21 @@
 import React, {useState} from "react";
 import {AppBar, MuiThemeProvider, RaisedButton} from "material-ui";
-import TextField from '@material-ui/core/TextField';
+import {TextField, Card} from '@material-ui/core';
 import "./Auth.css"
 import RTL from "../features/RTL";
 import Menu from "@material-ui/core/Menu";
 import MenuItem from "@material-ui/core/MenuItem";
-import {useDispatch} from "react-redux";
-import {saveToken} from './authSlice'
+import {useDispatch, useSelector} from "react-redux";
+import {saveToken, saveAccountNumber, saveBankNumber, selectAccountNumber, selectBankNumber} from './authSlice'
 import {useHistory} from "react-router";
+import {login, register} from '../Apis/Apis'
+import Button from "@material-ui/core/Button";
 
 export default function Login() {
     const dispatch = useDispatch();
+    const bankNumber = useSelector(selectBankNumber);
+    const accountNumber = useSelector(selectAccountNumber);
+
     let history = useHistory();
     const statusTypes = {
         register: 1,
@@ -21,9 +26,9 @@ export default function Login() {
         margin: 15,
     };
 
-    const [firstName, setFirstName] = useState("");
-    const [lastName, setLastName] = useState("");
-    const [email, setEmail] = useState("");
+    const [error, setError] = useState("");
+    // const [accountNumber, setFirstName] = useState("");
+    // const [bankNumber, setBankNumber] = useState("");
     const [password, setPassword] = useState("");
     const [status, setStatus] = useState(statusTypes.login);
     const [anchorEl, setAnchorEl] = useState(null);
@@ -68,102 +73,94 @@ export default function Login() {
         </Menu>
     );
 
-    async function loginUser(credentials) {
-        setAnchorEl(null);
-        return fetch('http://localhost:3000/', {
-            method: 'GET',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            // body: JSON.stringify(credentials)
-        })
-            .then(data => {
-                console.log("data", data);
-                data.json();
-                return credentials;
-            });
-    }
-
     const loginRegister = async e => {
         e.preventDefault();
-        const token = "";
-        // await loginUser({
-        //     username: username,
-        //     password: password
-        // });
-        // console.log("token", token);
-        dispatch(saveToken("dsfasdgdag"));
-        // sessionStorage.setItem('token', JSON.stringify(userToken));
-        sessionStorage.setItem('token', "sadsad");
-        history.push('/personalDetails');
-        // setToken(token);
-    }
+        if (status === statusTypes.login) {
+            const promise = await login(accountNumber, bankNumber, password);
+            if (promise === null) {
+                setError("התחברות נכשלה");
+                return;
+            } else if (promise === 422) {
+                setError("משתמש לא קיים");
+                return;
+            }
+            dispatch(saveToken(promise));
+            sessionStorage.setItem('token', promise);
+            history.push('/personalDetails');
+        } else {
+            const promise = await register(accountNumber, bankNumber, password);
+            setError(promise);
+            console.log(promise);
+        }
+    };
 
     return (
-        <div>
-            <MuiThemeProvider>
-                <div className="Top-bar">
-                    <AppBar onLeftIconButtonClick={handleProfileMenuOpen}
-                            title={texts[status].header}
-                    titleStyle={{paddingLeft: '45px'}}/>
-                    {status === statusTypes.register ?
-                        <>
+        <>
+            <div className='auth' variant="outlined">
+                <Card>
+                    <MuiThemeProvider>
+                        <div className="">
+                            <h1 className="header">{texts[status].header}</h1>
+                            {/*<AppBar*/}
+                            {/*    // onLeftIconButtonClick={handleProfileMenuOpen}*/}
+                            {/*title={texts[status].header}*/}
+                            {/*// titleStyle={{paddingLeft: '45px'}}*/}
+                            {/*/>*/}
                             <RTL children={
                                 <TextField
                                     style={{width: '80%'}}
-                                    label="שם פרטי"
-                                    value={firstName}
-                                    onChange={e => setFirstName(e.target.value)}
+                                    label="מספר חשבון"
+                                    value={accountNumber}
+                                    onChange={e => dispatch(saveAccountNumber(e.target.value))}
                                 />
                             }/>
                             <br/>
                             <RTL children={
                                 <TextField
                                     style={{width: '80%'}}
-                                    label="שם משפחה"
-                                    value={lastName}
-                                    onChange={e => setLastName(e.target.value)}
+                                    label="מספר בנק"
+                                    value={bankNumber}
+                                    onChange={e => dispatch(saveBankNumber(e.target.value))}
                                 />
                             }/>
                             <br/>
-                        </>
-                        : null
-                    }
-                    <RTL children={
-                        <TextField
-                            style={{width: '80%'}}
-                            label="הכנס מייל"
-                            value={email}
-                            onChange={e => setEmail(e.target.value)}
-                        />
-                    }/>
-                    <br/>
-                    <RTL children={
-                        <TextField
-                            style={{width: '80%'}}
-                            id="standard-password-input"
-                            type="password"
-                            label="הכנס סיסמה"
-                            value={password}
-                            onChange={e => setPassword(e.target.value)}
-                        />
-                    }/>
-                    <br/>
-                    <RaisedButton label={texts[status].buttonAuth}
-                                  primary={true}
-                                  style={buttonStyle}
-                                  onClick={loginRegister}
-                    />
-                    <br/>
-                    <h5>{texts[status].goOtherPage}</h5>
-                    <RaisedButton label={texts[status].buttonGoOtherPage}
-                                  primary={true}
-                                  style={buttonStyle}
-                                  onClick={() => handleMenuClose(texts[status].otherStatus)}
-                    />
-                    {renderMenu}
-                </div>
-            </MuiThemeProvider>
-        </div>
+                            <RTL children={
+                                <TextField
+                                    style={{width: '80%'}}
+                                    id="standard-password-input"
+                                    type="password"
+                                    label="הכנס סיסמה"
+                                    value={password}
+                                    onChange={e => setPassword(e.target.value)}
+                                />
+                            }/>
+                            <br/>
+                            <h1>{error}</h1>
+                            <Button variant="contained"
+                                    color="secondary"
+                                    label={texts[status].buttonAuth}
+                                    primary={true}
+                                    style={buttonStyle}
+                                    onClick={loginRegister}
+                            >
+                                {texts[status].buttonAuth}
+                            </Button>
+                            <br/>
+                            <h5>{texts[status].goOtherPage}</h5>
+                            <Button variant="contained"
+                                    color="secondary"
+                                    label={texts[status].buttonGoOtherPage}
+                                    primary={true}
+                                    style={buttonStyle}
+                                    onClick={() => handleMenuClose(texts[status].otherStatus)}
+                            >
+                                {texts[status].buttonGoOtherPage}
+                            </Button>
+                            {/*{renderMenu}*/}
+                        </div>
+                    </MuiThemeProvider>
+                </Card>
+            </div>
+        </>
     )
 }

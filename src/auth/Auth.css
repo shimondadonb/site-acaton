@@ -2,15 +2,41 @@
   width: 90%;
   display: inline-block;
 }
-.Aaa{
-  color: #ff0502;
-}
-.App-logo {
+
+.card{
   width: 80%;
-  position: center;
+  display: inline-table;
 }
 
-/*.MuiInputLabel-formControl{*/
-/*  right: 0;*/
-/*  top: 0;*/
-/*}*/
+.auth{
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 30%;
+  min-width: 30%;
+  max-width: 50%;
+  padding: 16px;
+
+}
+
+.phoneImage{
+  position: fixed;
+  top: 50%;
+  right: 50%;
+  height: 390px;
+  transform: translate(-50%, -50%);
+  width: 384px;
+  background-image: url("../images/phone.png");
+  background-position: center;
+  background-size: cover;
+  background-repeat: unset;
+}
+
+
+.header{
+  background-color: #a20400;
+  color: white;
+  padding: 10px;
+  margin-bottom: 10px;
+}
